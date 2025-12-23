@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String         @id @default(cuid())
+  lineUserId   String         @unique @map("line_user_id")
+  displayName  String         @map("display_name")
+  pictureUrl   String?        @map("picture_url")
+  memberNumber String         @unique @map("member_number")
+  rank         String         @default("BRONZE")
+  points       Int            @default(0)
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  bookings     Booking[]
+  pointHistory PointHistory[]
+
+  @@map("users")
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime
+  timeSlot  String   @map("time_slot")
+  title     String   @default("オンライン個別指導")
+  duration  Int      @default(60)
+  status    String   @default("CONFIRMED")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([date])
+  @@map("bookings")
+}
+
+model PointHistory {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Int
+  type        String
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("point_history")
+}
+
+model TimeSlot {
+  id        String   @id @default(cuid())
+  date      DateTime
+  time      String
+  capacity  Int      @default(1)
+  booked    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([date, time])
+  @@index([date])
+  @@map("time_slots")
+}

@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ベーススタイル */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  body {
+    @apply bg-line-light text-line-dark antialiased;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  }
+
+  /* Safe area対応 */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* コンポーネントスタイル */
+@layer components {
+  /* ボタン */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-3 rounded-button font-semibold transition-all duration-200 min-h-touch;
+  }
+
+  .btn-primary {
+    @apply btn bg-line-green text-white hover:bg-line-green-dark active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 active:scale-[0.98];
+  }
+
+  .btn-danger {
+    @apply btn bg-error text-white hover:bg-red-600 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-line-green hover:bg-line-green/10;
+  }
+
+  /* カード */
+  .card {
+    @apply bg-white rounded-card shadow-card p-4;
+  }
+
+  .card-elevated {
+    @apply card shadow-elevated;
+  }
+
+  /* ヘッダー */
+  .header {
+    @apply sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3 flex items-center;
+  }
+
+  .header-title {
+    @apply text-title flex-1 text-center;
+  }
+
+  /* 入力フィールド */
+  .input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-button text-body focus:outline-none focus:ring-2 focus:ring-line-green/50 focus:border-line-green;
+  }
+
+  /* タブ */
+  .tab-bar {
+    @apply flex gap-2 p-1 bg-gray-100 rounded-lg;
+  }
+
+  .tab-item {
+    @apply flex-1 py-2 px-4 text-center rounded-md text-body transition-colors;
+  }
+
+  .tab-item-active {
+    @apply tab-item bg-white text-line-dark font-semibold shadow-sm;
+  }
+
+  .tab-item-inactive {
+    @apply tab-item text-gray-500 hover:text-gray-700;
+  }
+
+  /* リスト */
+  .list-item {
+    @apply flex items-center justify-between py-4 border-b border-gray-100 last:border-0;
+  }
+
+  /* バッジ */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-caption font-medium;
+  }
+
+  .badge-bronze {
+    @apply badge bg-rank-bronze/10 text-rank-bronze;
+  }
+
+  .badge-silver {
+    @apply badge bg-rank-silver/20 text-gray-600;
+  }
+
+  .badge-gold {
+    @apply badge bg-rank-gold/10 text-rank-gold;
+  }
+
+  .badge-platinum {
+    @apply badge bg-rank-platinum/30 text-gray-700;
+  }
+
+  /* ポイント表示 */
+  .points-display {
+    @apply text-points text-line-green font-bold;
+  }
+
+  .points-positive {
+    @apply text-success font-semibold;
+  }
+
+  .points-negative {
+    @apply text-error font-semibold;
+  }
+
+  /* カレンダー */
+  .calendar-grid {
+    @apply grid grid-cols-7 gap-1 text-center;
+  }
+
+  .calendar-day {
+    @apply w-10 h-10 flex items-center justify-center rounded-full text-body transition-colors;
+  }
+
+  .calendar-day-active {
+    @apply calendar-day hover:bg-gray-100 cursor-pointer;
+  }
+
+  .calendar-day-selected {
+    @apply calendar-day bg-line-green text-white;
+  }
+
+  .calendar-day-disabled {
+    @apply calendar-day text-gray-300 cursor-not-allowed;
+  }
+
+  .calendar-day-today {
+    @apply calendar-day border border-line-green;
+  }
+
+  /* タイムスロット */
+  .time-slot {
+    @apply px-4 py-3 rounded-button text-center text-body transition-all;
+  }
+
+  .time-slot-available {
+    @apply time-slot bg-white border border-gray-300 hover:border-line-green cursor-pointer;
+  }
+
+  .time-slot-selected {
+    @apply time-slot bg-line-green text-white;
+  }
+
+  .time-slot-full {
+    @apply time-slot bg-gray-100 text-gray-400 cursor-not-allowed;
+  }
+
+  /* モーダル */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fade-in;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-card p-6 max-w-sm w-full animate-slide-up;
+  }
+
+  /* ローディング */
+  .loading-spinner {
+    @apply w-8 h-8 border-4 border-line-green/30 border-t-line-green rounded-full animate-spin;
+  }
+}
+
+/* ユーティリティ */
+@layer utilities {
+  /* スクロール関連 */
+  .scroll-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* テキスト省略 */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  /* タッチフィードバック */
+  .touch-feedback {
+    @apply active:opacity-70 transition-opacity;
+  }
+}
