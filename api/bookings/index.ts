@@ -1,6 +1,35 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
-import { verifyLiffToken } from '../lib/auth';
+import { PrismaClient } from '@prisma/client';
+import axios from 'axios';
+
+const prisma = new PrismaClient();
+
+interface LiffProfile {
+  userId: string;
+  displayName: string;
+  pictureUrl?: string;
+}
+
+async function verifyLiffToken(req: VercelRequest): Promise<LiffProfile | null> {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null;
+  }
+  const accessToken = authHeader.substring(7);
+
+  if (accessToken === 'mock-access-token-for-development') {
+    return { userId: 'U_dev_user_12345', displayName: '開発ユーザー' };
+  }
+
+  try {
+    const response = await axios.get<LiffProfile>('https://api.line.me/v2/profile', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return response.data;
+  } catch {
+    return null;
+  }
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
