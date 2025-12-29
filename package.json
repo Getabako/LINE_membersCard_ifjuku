@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "prisma generate && prisma db push --schema=server/src/prisma/schema.prisma && tsc -b && vite build",
+    "build": "prisma generate && prisma db push --schema=server/src/prisma/schema.prisma --accept-data-loss && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
