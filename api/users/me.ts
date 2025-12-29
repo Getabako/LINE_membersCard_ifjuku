@@ -20,8 +20,17 @@ interface LiffProfile {
 }
 
 async function verifyLiffToken(req: VercelRequest): Promise<LiffProfile | null> {
+  // 認証スキップモード（デモ・テスト用）
+  if (process.env.SKIP_AUTH === 'true') {
+    return { userId: 'U_demo_user_12345', displayName: 'デモユーザー' };
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // 認証ヘッダーがない場合もデモモードとして扱う
+    if (process.env.ALLOW_ANONYMOUS === 'true') {
+      return { userId: 'U_anonymous_user', displayName: 'ゲストユーザー' };
+    }
     return null;
   }
   const accessToken = authHeader.substring(7);

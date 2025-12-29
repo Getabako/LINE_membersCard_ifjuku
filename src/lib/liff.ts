@@ -42,23 +42,27 @@ export const initializeLiff = async (): Promise<LiffProfile | null> => {
     isInitialized = true;
 
     if (!liff.isLoggedIn()) {
-      liff.login({ redirectUri: window.location.href });
-      return null;
+      // LIFFクライアント内の場合のみログインリダイレクト
+      if (liff.isInClient()) {
+        liff.login({ redirectUri: window.location.href });
+        return null;
+      } else {
+        // ブラウザからのアクセスはモックモードで続行
+        console.log('🌐 ブラウザアクセス: モックモードで動作します');
+        isMockMode = true;
+        return MOCK_PROFILE;
+      }
     }
 
     return getLiffProfile();
   } catch (error) {
     console.error('LIFF initialization failed:', error);
 
-    // 開発環境ではエラーでもモックで続行
-    if (IS_DEV) {
-      console.log('🔧 開発モード: LIFFエラーのためモックで続行します');
-      isInitialized = true;
-      isMockMode = true;
-      return MOCK_PROFILE;
-    }
-
-    throw error;
+    // エラー時はモックモードで続行（PC/スマホブラウザ対応）
+    console.log('🔧 LIFFエラー: モックモードで続行します');
+    isInitialized = true;
+    isMockMode = true;
+    return MOCK_PROFILE;
   }
 };
 
