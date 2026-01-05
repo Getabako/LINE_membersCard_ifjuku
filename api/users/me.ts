@@ -88,17 +88,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             displayName: profile.displayName || 'ユーザー',
             pictureUrl: profile.pictureUrl,
             memberNumber: generateMemberNumber(),
-            points: 100, // 初回登録ボーナス
-          },
-        });
-
-        // 初回登録ボーナスの履歴
-        await prisma.pointHistory.create({
-          data: {
-            userId: user.id,
-            amount: 100,
-            type: 'bonus',
-            description: '初回登録ボーナス',
+            points: 0,
+            courses: [],
           },
         });
       }
@@ -108,13 +99,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (req.method === 'PUT') {
       // プロフィール更新
-      const { displayName, pictureUrl } = req.body;
+      const { displayName, pictureUrl, courses, area } = req.body;
 
       const user = await prisma.user.update({
         where: { lineUserId },
         data: {
           ...(displayName && { displayName }),
           ...(pictureUrl && { pictureUrl }),
+          ...(courses !== undefined && { courses }),
+          ...(area !== undefined && { area }),
         },
       });
 
