@@ -14,12 +14,13 @@ model User {
   lineUserId   String         @unique @map("line_user_id")
   displayName  String         @map("display_name")
   pictureUrl   String?        @map("picture_url")
-  memberNumber String         @unique @default(cuid()) @map("member_number")
+  memberNumber String?        @unique @map("member_number")
   rank         String         @default("BRONZE")
   points       Int            @default(0)
+  courses      String[]       @default([])
+  area         String?
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
-
   bookings     Booking[]
   pointHistory PointHistory[]
 
@@ -29,7 +30,6 @@ model User {
 model Booking {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   date      DateTime @default(now())
   timeSlot  String   @default("10:00") @map("time_slot")
   title     String   @default("オンライン個別指導")
@@ -37,6 +37,7 @@ model Booking {
   status    String   @default("CONFIRMED")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([date])
@@ -46,11 +47,11 @@ model Booking {
 model PointHistory {
   id          String   @id @default(cuid())
   userId      String   @map("user_id")
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   amount      Int
   type        String
   description String
   createdAt   DateTime @default(now()) @map("created_at")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("point_history")
@@ -68,3 +69,4 @@ model TimeSlot {
   @@index([date])
   @@map("time_slots")
 }
+

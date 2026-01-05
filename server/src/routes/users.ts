@@ -20,19 +20,11 @@ router.get('/me', verifyLiffToken, async (req, res, next) => {
           lineUserId: req.lineUserId!,
           displayName: 'ユーザー',
           memberNumber: generateMemberNumber(),
-          points: 100, // 初回登録ボーナス
+          points: 0,
+          courses: [],
         },
       });
 
-      // 初回登録ボーナスの履歴
-      await prisma.pointHistory.create({
-        data: {
-          userId: user.id,
-          amount: 100,
-          type: 'bonus',
-          description: '初回登録ボーナス',
-        },
-      });
     }
 
     res.json(user);
@@ -68,13 +60,15 @@ router.get('/me/points', verifyLiffToken, async (req, res, next) => {
 // プロフィール更新
 router.put('/me', verifyLiffToken, async (req, res, next) => {
   try {
-    const { displayName, pictureUrl } = req.body;
+    const { displayName, pictureUrl, courses, area } = req.body;
 
     const user = await prisma.user.update({
       where: { lineUserId: req.lineUserId },
       data: {
         ...(displayName && { displayName }),
         ...(pictureUrl && { pictureUrl }),
+        ...(courses !== undefined && { courses }),
+        ...(area !== undefined && { area }),
       },
     });
 

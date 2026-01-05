@@ -9,6 +9,7 @@ interface UserState {
   fetchUser: () => Promise<void>;
   fetchPointHistory: () => Promise<void>;
   updateUser: (updates: Partial<User>) => void;
+  saveUserProfile: (data: { courses?: string[]; area?: string }) => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -43,5 +44,19 @@ export const useUserStore = create<UserState>((set) => ({
     set((state) => ({
       user: state.user ? { ...state.user, ...updates } : null,
     }));
+  },
+
+  saveUserProfile: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const updatedUser = await userApi.updateMe(data);
+      set({ user: updatedUser, isLoading: false });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : '保存に失敗しました',
+        isLoading: false,
+      });
+      throw error;
+    }
   },
 }));

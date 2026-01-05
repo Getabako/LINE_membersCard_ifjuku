@@ -65,9 +65,11 @@ export interface User {
   lineUserId: string;
   displayName: string;
   pictureUrl?: string;
-  memberNumber: string;
+  memberNumber?: string;
   rank: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
   points: number;
+  courses: string[];
+  area?: string;
   createdAt: string;
 }
 
@@ -101,6 +103,7 @@ export interface TimeSlot {
 export const userApi = {
   getMe: () => api.get<User>('/users/me'),
   getPointHistory: () => api.get<PointHistory[]>('/users/me/points'),
+  updateMe: (data: { courses?: string[]; area?: string }) => api.put<User>('/users/me', data),
 };
 
 export const bookingApi = {

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { initializeLiff } from './lib/liff';
 import { Loading } from './components/common/Loading';
 import { HomePage } from './features/home/HomePage';
+import { ProfileEditPage } from './features/profile/ProfileEditPage';
 import { PointHistoryPage } from './features/member/PointHistoryPage';
 import { BookingPage } from './features/booking/BookingPage';
 import { BookingCompletePage } from './features/booking/BookingCompletePage';
@@ -64,6 +65,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/points" element={<PointHistoryPage />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/booking/complete" element={<BookingCompletePage />} />
