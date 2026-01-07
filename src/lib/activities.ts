@@ -7,6 +7,7 @@ export const FAVORITE_ACTIVITIES = [
   { id: 'reading', name: '読書', description: '本を読むのが好き' },
   { id: 'music', name: '音楽', description: '音楽を聴く・演奏するのが好き' },
   { id: 'art', name: 'アート・絵', description: '絵を描くのが好き' },
+  { id: '3dcg', name: '3DCG', description: '3Dモデルを作るのが好き' },
   { id: 'video', name: '動画制作', description: '動画を作るのが好き' },
   { id: 'science', name: '科学・実験', description: '実験や科学が好き' },
 ] as const;
