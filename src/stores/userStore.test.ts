@@ -39,8 +39,8 @@ describe('userStore', () => {
       memberNumber: '0001-0000-0000',
       rank: 'GOLD' as const,
       points: 1000,
-      courses: ['vegiraku'],
-      area: '牛島',
+      favoriteActivities: ['programming'],
+      futureGoal: 'engineer',
       createdAt: '2024-01-01',
     };
 
@@ -87,7 +87,7 @@ describe('userStore', () => {
         memberNumber: '0001-0000-0000',
         rank: 'BRONZE',
         points: 100,
-        courses: [],
+        favoriteActivities: [],
         createdAt: '2024-01-01',
       },
     });

@@ -7,12 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        // LINE公式カラー
-        'line-green': '#06C755',
-        'line-green-dark': '#05a648',
-        'line-dark': '#1E1E1E',
-        'line-gray': '#B7B7B7',
-        'line-light': '#F7F8FA',
+        // if(塾) ブランドカラー（オレンジ系）
+        'if-orange': '#F97316',
+        'if-orange-dark': '#EA580C',
+        'if-orange-light': '#FDBA74',
+        'if-dark': '#1E1E1E',
+        'if-gray': '#B7B7B7',
+        'if-light': '#FFF7ED',
 
         // ランクカラー
         'rank-bronze': '#CD7F32',

@@ -9,7 +9,7 @@ interface UserState {
   fetchUser: () => Promise<void>;
   fetchPointHistory: () => Promise<void>;
   updateUser: (updates: Partial<User>) => void;
-  saveUserProfile: (data: { courses?: string[]; area?: string }) => Promise<void>;
+  saveUserProfile: (data: { favoriteActivities?: string[]; futureGoal?: string }) => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set) => ({

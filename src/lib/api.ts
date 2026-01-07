@@ -68,8 +68,8 @@ export interface User {
   memberNumber?: string;
   rank: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
   points: number;
-  courses: string[];
-  area?: string;
+  favoriteActivities: string[];
+  futureGoal?: string;
   createdAt: string;
 }
 
@@ -103,7 +103,7 @@ export interface TimeSlot {
 export const userApi = {
   getMe: () => api.get<User>('/users/me'),
   getPointHistory: () => api.get<PointHistory[]>('/users/me/points'),
-  updateMe: (data: { courses?: string[]; area?: string }) => api.put<User>('/users/me', data),
+  updateMe: (data: { favoriteActivities?: string[]; futureGoal?: string }) => api.put<User>('/users/me', data),
 };
 
 export const bookingApi = {

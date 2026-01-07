@@ -4,39 +4,39 @@ import { Header } from '../../components/common/Header';
 import { Card } from '../../components/common/Card';
 import { Loading } from '../../components/common/Loading';
 import { useUserStore } from '../../stores/userStore';
-import { COURSES, ALL_AREAS_BY_DAY, getDeliveryDayByArea, getDayFullName, type DeliveryDay } from '../../lib/deliveryAreas';
+import { FAVORITE_ACTIVITIES, FUTURE_GOALS } from '../../lib/activities';
 
 export const ProfileEditPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, isLoading, saveUserProfile } = useUserStore();
 
-  const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
-  const [selectedArea, setSelectedArea] = useState<string>('');
+  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
+  const [selectedGoal, setSelectedGoal] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
-      setSelectedCourses(user.courses || []);
-      setSelectedArea(user.area || '');
+      setSelectedActivities(user.favoriteActivities || []);
+      setSelectedGoal(user.futureGoal || '');
     }
   }, [user]);
 
-  const handleCourseToggle = (courseId: string) => {
-    setSelectedCourses(prev =>
-      prev.includes(courseId)
-        ? prev.filter(c => c !== courseId)
-        : [...prev, courseId]
+  const handleActivityToggle = (activityId: string) => {
+    setSelectedActivities(prev =>
+      prev.includes(activityId)
+        ? prev.filter(a => a !== activityId)
+        : [...prev, activityId]
     );
   };
 
   const handleSave = async () => {
-    if (selectedCourses.length === 0) {
-      setSaveError('コースを1つ以上選択してください');
+    if (selectedActivities.length === 0) {
+      setSaveError('好きな活動を1つ以上選択してください');
       return;
     }
-    if (!selectedArea) {
-      setSaveError('地域を選択してください');
+    if (!selectedGoal) {
+      setSaveError('将来やりたいことを選択してください');
       return;
     }
 
@@ -45,8 +45,8 @@ export const ProfileEditPage: React.FC = () => {
 
     try {
       await saveUserProfile({
-        courses: selectedCourses,
-        area: selectedArea,
+        favoriteActivities: selectedActivities,
+        futureGoal: selectedGoal,
       });
       navigate('/');
     } catch {
@@ -56,87 +56,81 @@ export const ProfileEditPage: React.FC = () => {
     }
   };
 
-  const deliveryDay = selectedArea ? getDeliveryDayByArea(selectedArea) : null;
-
   if (isLoading || !user) {
     return <Loading fullScreen text="読み込み中..." />;
   }
 
   return (
-    <div className="min-h-screen bg-line-light">
+    <div className="min-h-screen bg-if-light">
       <Header title="会員情報登録" showBack />
 
       <main className="p-4 pb-8 space-y-6">
-        {/* コース選択 */}
+        {/* 好きな活動選択 */}
         <Card>
-          <h2 className="text-section mb-4">コースを選択（複数可）</h2>
+          <h2 className="text-section mb-4">好きな活動を選択（複数可）</h2>
           <div className="space-y-3">
-            {COURSES.map((course) => (
+            {FAVORITE_ACTIVITIES.map((activity) => (
               <label
-                key={course.id}
+                key={activity.id}
                 className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-                  selectedCourses.includes(course.id)
-                    ? 'border-green-500 bg-green-50'
+                  selectedActivities.includes(activity.id)
+                    ? 'border-orange-500 bg-orange-50'
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <input
                   type="checkbox"
-                  checked={selectedCourses.includes(course.id)}
-                  onChange={() => handleCourseToggle(course.id)}
-                  className="w-5 h-5 text-green-600 rounded focus:ring-green-500"
+                  checked={selectedActivities.includes(activity.id)}
+                  onChange={() => handleActivityToggle(activity.id)}
+                  className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
                 />
                 <div className="flex-1">
-                  <p className="font-medium text-gray-800">{course.name}</p>
-                  <p className="text-sm text-gray-500">{course.description}</p>
+                  <p className="font-medium text-gray-800">{activity.name}</p>
+                  <p className="text-sm text-gray-500">{activity.description}</p>
                 </div>
               </label>
             ))}
           </div>
         </Card>
 
-        {/* 地域選択 */}
+        {/* 将来やりたいこと選択 */}
         <Card>
-          <h2 className="text-section mb-4">お届け地域を選択</h2>
+          <h2 className="text-section mb-4">将来やりたいことを選択</h2>
           <p className="text-sm text-gray-500 mb-4">
-            お住まいの地域を選択すると、お届け曜日が自動で設定されます
+            今の夢を教えてね！変わってもOKだよ
           </p>
 
-          <div className="space-y-4">
-            {ALL_AREAS_BY_DAY.map(({ day, areas }) => (
-              <div key={day} className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-600 text-white text-sm font-bold">
-                    {day}
-                  </span>
-                  <span className="text-sm text-gray-600">{getDayFullName(day as DeliveryDay)}配達</span>
+          <div className="space-y-3">
+            {FUTURE_GOALS.map((goal) => (
+              <label
+                key={goal.id}
+                className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                  selectedGoal === goal.id
+                    ? 'border-orange-500 bg-orange-50'
+                    : 'border-gray-200 bg-white'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="futureGoal"
+                  checked={selectedGoal === goal.id}
+                  onChange={() => setSelectedGoal(goal.id)}
+                  className="w-5 h-5 text-orange-600 focus:ring-orange-500"
+                />
+                <div className="flex-1">
+                  <p className="font-medium text-gray-800">{goal.name}</p>
+                  <p className="text-sm text-gray-500">{goal.description}</p>
                 </div>
-                <div className="flex flex-wrap gap-2 ml-10">
-                  {areas.map((area) => (
-                    <button
-                      key={area}
-                      type="button"
-                      onClick={() => setSelectedArea(area)}
-                      className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
-                        selectedArea === area
-                          ? 'bg-green-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {area}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              </label>
             ))}
           </div>
 
-          {selectedArea && deliveryDay && (
-            <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
-              <p className="text-green-800">
-                <span className="font-bold">{selectedArea}</span>は
-                <span className="font-bold text-lg"> {getDayFullName(deliveryDay)} </span>
-                にお届けします
+          {selectedGoal && (
+            <div className="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <p className="text-orange-800">
+                将来の夢は
+                <span className="font-bold text-lg"> {FUTURE_GOALS.find(g => g.id === selectedGoal)?.name} </span>
+                だね！
               </p>
             </div>
           )}
@@ -153,7 +147,7 @@ export const ProfileEditPage: React.FC = () => {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="w-full py-4 bg-green-600 text-white rounded-xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition-shadow"
         >
           {isSaving ? '保存中...' : '登録する'}
         </button>

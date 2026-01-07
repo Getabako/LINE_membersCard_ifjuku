@@ -104,7 +104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             pictureUrl: profile.pictureUrl,
             memberNumber,
             points: 0,
-            courses: [],
+            favoriteActivities: [],
           },
         });
       } else {
@@ -125,15 +125,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (req.method === 'PUT') {
       // プロフィール更新
-      const { displayName, pictureUrl, courses, area } = req.body;
+      const { displayName, pictureUrl, favoriteActivities, futureGoal } = req.body;
 
       const user = await prisma.user.update({
         where: { lineUserId },
         data: {
           ...(displayName && { displayName }),
           ...(pictureUrl && { pictureUrl }),
-          ...(courses !== undefined && { courses }),
-          ...(area !== undefined && { area }),
+          ...(favoriteActivities !== undefined && { favoriteActivities }),
+          ...(futureGoal !== undefined && { futureGoal }),
         },
       });
 

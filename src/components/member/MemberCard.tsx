@@ -1,9 +1,9 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faShoppingBasket, faMapMarkerAlt, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHeart, faRocket, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Card } from '../common/Card';
 import type { User } from '../../lib/api';
-import { COURSES, getDeliveryDayByArea, getDayFullName } from '../../lib/deliveryAreas';
+import { FAVORITE_ACTIVITIES, getGoalNameById } from '../../lib/activities';
 
 interface MemberCardProps {
   user: User;
@@ -11,50 +11,51 @@ interface MemberCardProps {
 }
 
 export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => {
-  const deliveryDay = user.area ? getDeliveryDayByArea(user.area) : null;
-  const courseNames = user.courses
-    ?.map(courseId => COURSES.find(c => c.id === courseId)?.name)
+  const activityNames = user.favoriteActivities
+    ?.map(activityId => FAVORITE_ACTIVITIES.find(a => a.id === activityId)?.name)
     .filter(Boolean) || [];
 
-  const needsSetup = !user.area || user.courses.length === 0;
+  const futureGoalName = user.futureGoal ? getGoalNameById(user.futureGoal) : null;
+
+  const needsSetup = !user.futureGoal || user.favoriteActivities.length === 0;
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* ベジ楽便会員証メインカード */}
-      <Card variant="elevated" className="w-full bg-gradient-to-br from-green-600 to-green-700 text-white p-0 overflow-hidden">
+      {/* if(塾)会員証メインカード - オレンジグラデーション */}
+      <Card variant="elevated" className="w-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white p-0 overflow-hidden shadow-xl">
         {/* ヘッダー */}
         <div className="px-5 pt-5 pb-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-200 text-xs font-medium">MEMBERSHIP CARD</p>
-              <h1 className="text-xl font-bold tracking-wide">ベジ楽便</h1>
+              <p className="text-orange-200 text-xs font-medium tracking-wider">MEMBERSHIP CARD</p>
+              <h1 className="text-2xl font-bold tracking-wide">if(塾)</h1>
             </div>
             <div className="text-right">
               <img
                 src="/logo.png"
-                alt="ベジ楽ロゴ"
-                className="w-10 h-10 rounded-full object-cover"
+                alt="if(塾)ロゴ"
+                className="w-12 h-12 rounded-full object-cover border-2 border-orange-300/50 shadow-lg"
               />
             </div>
           </div>
         </div>
 
         {/* 会員情報 */}
-        <div className="px-5 py-4 bg-white/10">
+        <div className="px-5 py-4 bg-white/15 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             {user.pictureUrl ? (
               <img
                 src={user.pictureUrl}
                 alt={user.displayName}
-                className="w-14 h-14 rounded-full object-cover border-2 border-white/50"
+                className="w-14 h-14 rounded-full object-cover border-2 border-white/60 shadow-md"
               />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-white/30 flex items-center justify-center border-2 border-white/50">
+              <div className="w-14 h-14 rounded-full bg-white/30 flex items-center justify-center border-2 border-white/60 shadow-md">
                 <FontAwesomeIcon icon={faUser} className="text-xl" />
               </div>
             )}
             <div className="flex-1">
-              <p className="text-green-100 text-xs">会員名</p>
+              <p className="text-orange-100 text-xs">会員名</p>
               <h2 className="text-lg font-bold">{user.displayName}</h2>
             </div>
           </div>
@@ -62,7 +63,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
 
         {/* QRコードセクション */}
         <div className="px-5 py-4 bg-white flex items-center gap-4">
-          <div className="bg-white p-2 rounded-lg shadow-inner">
+          <div className="bg-white p-2 rounded-lg shadow-inner border border-gray-100">
             <QRCodeSVG
               value={user.memberNumber || user.id}
               size={80}
@@ -82,11 +83,11 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
         <Card className="w-full">
           <div className="text-center py-4">
             <p className="text-gray-600 mb-4">
-              コースと地域を登録して<br />会員証を完成させましょう
+              好きな活動と将来の夢を登録して<br />会員証を完成させよう！
             </p>
             <button
               onClick={onEditClick}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg font-bold"
+              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-shadow"
             >
               登録する
             </button>
@@ -94,16 +95,16 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
         </Card>
       ) : (
         <Card className="w-full">
-          {/* コース */}
+          {/* 好きな活動 */}
           <div className="flex items-start gap-3 pb-4 border-b border-gray-100">
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-              <FontAwesomeIcon icon={faShoppingBasket} className="text-green-600" />
+            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+              <FontAwesomeIcon icon={faHeart} className="text-orange-600" />
             </div>
             <div className="flex-1">
-              <p className="text-xs text-gray-500 mb-1">登録コース</p>
+              <p className="text-xs text-gray-500 mb-1">好きな活動</p>
               <div className="flex flex-wrap gap-2">
-                {courseNames.map((name) => (
-                  <span key={name} className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                {activityNames.map((name) => (
+                  <span key={name} className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
                     {name}
                   </span>
                 ))}
@@ -111,25 +112,25 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
             </div>
           </div>
 
-          {/* 地域とお届け曜日 */}
+          {/* 将来やりたいことと授業日 */}
           <div className="flex items-center gap-3 pt-4">
             <div className="flex-1 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="text-blue-600" />
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                <FontAwesomeIcon icon={faRocket} className="text-amber-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">お届け地域</p>
-                <p className="font-medium text-gray-800">{user.area}</p>
+                <p className="text-xs text-gray-500">将来やりたいこと</p>
+                <p className="font-medium text-gray-800">{futureGoalName || '-'}</p>
               </div>
             </div>
             <div className="flex-1 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                <FontAwesomeIcon icon={faCalendarAlt} className="text-orange-600" />
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">お届け日</p>
+                <p className="text-xs text-gray-500">通常の授業日</p>
                 <p className="font-bold text-orange-600 text-lg">
-                  {deliveryDay ? getDayFullName(deliveryDay) : '-'}
+                  月曜17時
                 </p>
               </div>
             </div>
@@ -138,7 +139,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
           {/* 編集ボタン */}
           <button
             onClick={onEditClick}
-            className="mt-4 w-full py-2 text-green-600 text-sm font-medium border border-green-200 rounded-lg hover:bg-green-50"
+            className="mt-4 w-full py-2 text-orange-600 text-sm font-medium border border-orange-200 rounded-lg hover:bg-orange-50 transition-colors"
           >
             登録情報を変更
           </button>

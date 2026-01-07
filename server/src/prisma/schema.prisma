@@ -10,19 +10,19 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(cuid())
-  lineUserId   String         @unique @map("line_user_id")
-  displayName  String         @map("display_name")
-  pictureUrl   String?        @map("picture_url")
-  memberNumber String?        @unique @map("member_number")
-  rank         String         @default("BRONZE")
-  points       Int            @default(0)
-  courses      String[]       @default([])
-  area         String?
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
-  bookings     Booking[]
-  pointHistory PointHistory[]
+  id                 String         @id @default(cuid())
+  lineUserId         String         @unique @map("line_user_id")
+  displayName        String         @map("display_name")
+  pictureUrl         String?        @map("picture_url")
+  memberNumber       String?        @unique @map("member_number")
+  rank               String         @default("BRONZE")
+  points             Int            @default(0)
+  favoriteActivities String[]       @default([]) @map("favorite_activities")
+  futureGoal         String?        @map("future_goal")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  bookings           Booking[]
+  pointHistory       PointHistory[]
 
   @@map("users")
 }
