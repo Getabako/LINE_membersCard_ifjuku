@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HiArrowPath } from 'react-icons/hi2';
-import { Header } from '../../components/common/Header';
 import { Loading } from '../../components/common/Loading';
 import { MemberCard } from '../../components/member/MemberCard';
 import { useUserStore } from '../../stores/userStore';
