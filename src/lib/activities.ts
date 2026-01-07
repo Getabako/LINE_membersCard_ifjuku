@@ -1,6 +1,7 @@
 // 好きな活動の定義
 export const FAVORITE_ACTIVITIES = [
   { id: 'programming', name: 'プログラミング', description: 'コードを書くのが好き' },
+  { id: 'ai', name: 'AI', description: 'AIを使うのが好き' },
   { id: 'gaming', name: 'ゲーム', description: 'ゲームで遊ぶのが好き' },
   { id: 'sports', name: 'スポーツ', description: '体を動かすのが好き' },
   { id: 'reading', name: '読書', description: '本を読むのが好き' },
