@@ -22,6 +22,8 @@ export const FUTURE_GOALS = [
   { id: 'teacher', name: '先生', description: '教える仕事' },
   { id: 'athlete', name: 'スポーツ選手', description: 'スポーツをする仕事' },
   { id: 'doctor', name: '医師', description: '人を治す仕事' },
+  { id: 'investor', name: '投資家', description: 'お金を運用する仕事' },
+  { id: 'entrepreneur', name: '起業家', description: '会社を作る仕事' },
   { id: 'other', name: 'その他・まだ考え中', description: 'これから見つける' },
 ] as const;
 
