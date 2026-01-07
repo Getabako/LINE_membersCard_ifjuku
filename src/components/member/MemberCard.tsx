@@ -1,6 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLeaf, faUser, faShoppingBasket, faMapMarkerAlt, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faShoppingBasket, faMapMarkerAlt, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Card } from '../common/Card';
 import type { User } from '../../lib/api';
 import { COURSES, getDeliveryDayByArea, getDayFullName } from '../../lib/deliveryAreas';
@@ -30,9 +30,11 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
               <h1 className="text-xl font-bold tracking-wide">ベジ楽便</h1>
             </div>
             <div className="text-right">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <FontAwesomeIcon icon={faLeaf} className="text-xl" />
-              </div>
+              <img
+                src="/logo.png"
+                alt="ベジ楽ロゴ"
+                className="w-10 h-10 rounded-full object-cover"
+              />
             </div>
           </div>
         </div>
