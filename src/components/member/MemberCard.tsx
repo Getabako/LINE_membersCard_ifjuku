@@ -1,7 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHeart, faRocket, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { Card } from '../common/Card';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import type { User } from '../../lib/api';
 import { FAVORITE_ACTIVITIES, getGoalNameById } from '../../lib/activities';
 
@@ -20,131 +19,104 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
   const needsSetup = !user.futureGoal || user.favoriteActivities.length === 0;
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {/* if(塾)会員証メインカード - オレンジグラデーション */}
-      <Card variant="elevated" className="w-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white p-0 overflow-hidden shadow-xl">
-        {/* ヘッダー */}
-        <div className="px-5 pt-5 pb-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-orange-200 text-xs font-medium tracking-wider">MEMBERSHIP CARD</p>
-              <h1 className="text-2xl font-bold tracking-wide">if(塾)</h1>
-            </div>
-            <div className="text-right">
-              <img
-                src="/logo.png"
-                alt="if(塾)ロゴ"
-                className="w-12 h-12 rounded-full object-cover border-2 border-orange-300/50 shadow-lg"
-              />
-            </div>
-          </div>
+    <div className="cyber-bg min-h-screen w-full flex flex-col relative">
+      {/* コンテンツ */}
+      <div className="relative z-10 flex flex-col min-h-screen px-4 py-6">
+        {/* ロゴ・タイトル */}
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-bold neon-text tracking-wider">
+            IF（塾）
+          </h1>
+          <p className="text-cyan-400 text-sm tracking-[0.3em] mt-1">
+            MEMBERSHIP CARD
+          </p>
         </div>
 
-        {/* 会員情報 */}
-        <div className="px-5 py-4 bg-white/15 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            {user.pictureUrl ? (
-              <img
-                src={user.pictureUrl}
-                alt={user.displayName}
-                className="w-14 h-14 rounded-full object-cover border-2 border-white/60 shadow-md"
-              />
-            ) : (
-              <div className="w-14 h-14 rounded-full bg-white/30 flex items-center justify-center border-2 border-white/60 shadow-md">
-                <FontAwesomeIcon icon={faUser} className="text-xl" />
-              </div>
-            )}
-            <div className="flex-1">
-              <p className="text-orange-100 text-xs">会員名</p>
-              <h2 className="text-lg font-bold">{user.displayName}</h2>
+        {/* ユーザー情報 */}
+        <div className="flex items-center gap-4 mb-6">
+          {user.pictureUrl ? (
+            <img
+              src={user.pictureUrl}
+              alt={user.displayName}
+              className="w-14 h-14 rounded-full object-cover border-2 border-cyan-400/50 shadow-lg shadow-cyan-500/30"
+            />
+          ) : (
+            <div className="w-14 h-14 rounded-full bg-cyan-900/50 flex items-center justify-center border-2 border-cyan-400/50">
+              <FontAwesomeIcon icon={faUser} className="text-xl text-cyan-400" />
             </div>
-          </div>
+          )}
+          <h2 className="text-2xl font-bold text-white tracking-wide">
+            {user.displayName}
+          </h2>
         </div>
 
-        {/* QRコードセクション */}
-        <div className="px-5 py-4 bg-white flex items-center gap-4">
-          <div className="bg-white p-2 rounded-lg shadow-inner border border-gray-100">
+        {/* QRコードカード */}
+        <div className="qr-container rounded-xl p-4 mb-6 flex items-center gap-4">
+          <div className="bg-white p-3 rounded-lg">
             <QRCodeSVG
               value={user.memberNumber || user.id}
-              size={80}
+              size={100}
               level="M"
               includeMargin={false}
             />
           </div>
           <div className="flex-1">
-            <p className="text-gray-500 text-xs">会員番号</p>
-            <p className="font-mono text-gray-800 font-bold">{user.memberNumber || user.id.slice(0, 12)}</p>
+            <p className="text-cyan-400 text-xs tracking-wider mb-1">会員番号</p>
+            <p className="font-mono text-white text-xl font-bold tracking-wider">
+              {user.memberNumber || user.id.slice(0, 10)}
+            </p>
           </div>
         </div>
-      </Card>
 
-      {/* 登録情報カード */}
-      {needsSetup ? (
-        <Card className="w-full">
-          <div className="text-center py-4">
-            <p className="text-gray-600 mb-4">
+        {/* 登録情報セクション */}
+        {needsSetup ? (
+          <div className="cyber-card p-6 text-center flex-1 flex flex-col justify-center">
+            <p className="text-cyan-300 mb-6 text-lg">
               好きな活動と将来の夢を登録して<br />会員証を完成させよう！
             </p>
             <button
               onClick={onEditClick}
-              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-shadow"
+              className="cyber-button w-full rounded-lg text-lg"
             >
               登録する
             </button>
           </div>
-        </Card>
-      ) : (
-        <Card className="w-full">
-          {/* 好きな活動 */}
-          <div className="flex items-start gap-3 pb-4 border-b border-gray-100">
-            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-              <FontAwesomeIcon icon={faHeart} className="text-orange-600" />
+        ) : (
+          <div className="flex-1 flex flex-col gap-4">
+            {/* 好きな活動 */}
+            <div className="cyber-border rounded-xl p-4">
+              <p className="text-cyan-400 text-xs tracking-wider mb-2">好きな活動</p>
+              <p className="text-white text-lg font-bold">
+                {activityNames.join('、') || '-'}
+              </p>
             </div>
-            <div className="flex-1">
-              <p className="text-xs text-gray-500 mb-1">好きな活動</p>
-              <div className="flex flex-wrap gap-2">
-                {activityNames.map((name) => (
-                  <span key={name} className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                    {name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
 
-          {/* 将来やりたいことと授業日 */}
-          <div className="flex items-center gap-3 pt-4">
-            <div className="flex-1 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                <FontAwesomeIcon icon={faRocket} className="text-amber-600" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">将来やりたいこと</p>
-                <p className="font-medium text-gray-800">{futureGoalName || '-'}</p>
-              </div>
+            {/* 将来やりたいこと */}
+            <div className="cyber-border rounded-xl p-4">
+              <p className="text-cyan-400 text-xs tracking-wider mb-2">将来やりたいこと</p>
+              <p className="text-white text-lg font-bold">
+                {futureGoalName || '-'}
+              </p>
             </div>
-            <div className="flex-1 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-600" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">通常の授業日</p>
-                <p className="font-bold text-orange-600 text-lg">
-                  月曜17時
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* 編集ボタン */}
-          <button
-            onClick={onEditClick}
-            className="mt-4 w-full py-2 text-orange-600 text-sm font-medium border border-orange-200 rounded-lg hover:bg-orange-50 transition-colors"
-          >
-            登録情報を変更
-          </button>
-        </Card>
-      )}
+            {/* 通常の授業日 */}
+            <div className="cyber-border-orange rounded-xl p-4">
+              <p className="text-orange-400 text-xs tracking-wider mb-2">通常の授業日</p>
+              <p className="neon-text-orange text-2xl font-bold">
+                月曜17時
+              </p>
+            </div>
+
+            {/* 編集ボタン */}
+            <button
+              onClick={onEditClick}
+              className="cyber-button w-full rounded-lg mt-auto"
+            >
+              登録情報を変更
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

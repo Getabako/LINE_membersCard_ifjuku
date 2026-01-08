@@ -212,3 +212,178 @@
     @apply active:opacity-70 transition-opacity;
   }
 }
+
+/* サイバーパンク風スタイル */
+.cyber-bg {
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 25%, #0a1628 50%, #1a0a2e 75%, #0a0a1a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
+  background-size: 30px 30px, 30px 30px, 100% 100%;
+  pointer-events: none;
+}
+
+.cyber-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at top, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(128, 0, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ネオンテキスト効果 */
+.neon-text {
+  color: #00f0ff;
+  text-shadow:
+    0 0 5px #00f0ff,
+    0 0 10px #00f0ff,
+    0 0 20px #00f0ff,
+    0 0 40px #0080ff;
+}
+
+.neon-text-orange {
+  color: #ff6b00;
+  text-shadow:
+    0 0 5px #ff6b00,
+    0 0 10px #ff6b00,
+    0 0 20px #ff6b00;
+}
+
+/* サイバーボーダー */
+.cyber-border {
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow:
+    0 0 10px rgba(0, 240, 255, 0.2),
+    inset 0 0 10px rgba(0, 240, 255, 0.05);
+  background: rgba(0, 20, 40, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.cyber-border-orange {
+  border: 1px solid rgba(255, 107, 0, 0.5);
+  box-shadow:
+    0 0 10px rgba(255, 107, 0, 0.3),
+    inset 0 0 10px rgba(255, 107, 0, 0.05);
+  background: rgba(40, 20, 0, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+/* サイバーカード */
+.cyber-card {
+  background: linear-gradient(135deg, rgba(0, 30, 60, 0.8) 0%, rgba(0, 20, 40, 0.9) 100%);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+  box-shadow:
+    0 0 20px rgba(0, 240, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5), transparent);
+}
+
+/* サイバーボタン */
+.cyber-button {
+  background: transparent;
+  border: 2px solid #00f0ff;
+  color: #00f0ff;
+  padding: 12px 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 10px rgba(0, 240, 255, 0.3),
+    inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.cyber-button:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow:
+    0 0 20px rgba(0, 240, 255, 0.5),
+    inset 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.cyber-button:hover::before {
+  left: 100%;
+}
+
+/* グロー効果付きQRコード背景 */
+.qr-container {
+  background: linear-gradient(135deg, #001a33 0%, #002244 100%);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow:
+    0 0 15px rgba(0, 240, 255, 0.2),
+    inset 0 0 30px rgba(0, 100, 200, 0.1);
+}
+
+/* アニメーション */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5), transparent);
+  animation: scan-line 3s linear infinite;
+}

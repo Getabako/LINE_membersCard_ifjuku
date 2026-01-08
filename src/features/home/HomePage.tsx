@@ -27,14 +27,14 @@ export const HomePage: React.FC = () => {
 
   if (error || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white flex flex-col items-center justify-center p-4">
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">
+      <div className="cyber-bg min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="text-center relative z-10">
+          <p className="text-cyan-300 mb-4">
             {error || 'ユーザー情報の取得に失敗しました'}
           </p>
           <button
             onClick={loadUser}
-            className="flex items-center gap-2 mx-auto px-6 py-3 bg-orange-600 text-white rounded-lg font-medium"
+            className="cyber-button flex items-center gap-2 mx-auto rounded-lg"
           >
             <HiArrowPath className="w-5 h-5" />
             再読み込み
@@ -44,12 +44,5 @@ export const HomePage: React.FC = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-      <main className="p-4 pb-8">
-        {/* 会員証 */}
-        <MemberCard user={user} onEditClick={handleEditClick} />
-      </main>
-    </div>
-  );
+  return <MemberCard user={user} onEditClick={handleEditClick} />;
 };
