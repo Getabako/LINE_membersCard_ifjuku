@@ -1,4 +1,3 @@
-import { QRCodeSVG } from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import type { User } from '../../lib/api';
@@ -24,9 +23,11 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
       <div className="relative z-10 flex flex-col min-h-screen px-4 py-6">
         {/* ロゴ・タイトル */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold neon-text tracking-wider">
-            IF（塾）
-          </h1>
+          <img
+            src="/logo.png"
+            alt="if(塾)"
+            className="h-20 mx-auto mb-2 drop-shadow-[0_0_10px_rgba(0,240,255,0.5)]"
+          />
           <p className="text-cyan-400 text-sm tracking-[0.3em] mt-1">
             MEMBERSHIP CARD
           </p>
@@ -50,22 +51,12 @@ export const MemberCard: React.FC<MemberCardProps> = ({ user, onEditClick }) => 
           </h2>
         </div>
 
-        {/* QRコードカード */}
-        <div className="qr-container rounded-xl p-4 mb-6 flex items-center gap-4">
-          <div className="bg-white p-3 rounded-lg">
-            <QRCodeSVG
-              value={user.memberNumber || user.id}
-              size={100}
-              level="M"
-              includeMargin={false}
-            />
-          </div>
-          <div className="flex-1">
-            <p className="text-cyan-400 text-xs tracking-wider mb-1">会員番号</p>
-            <p className="font-mono text-white text-xl font-bold tracking-wider">
-              {user.memberNumber || user.id.slice(0, 10)}
-            </p>
-          </div>
+        {/* 会員番号カード */}
+        <div className="qr-container rounded-xl p-4 mb-6">
+          <p className="text-cyan-400 text-xs tracking-wider mb-1">会員番号</p>
+          <p className="font-mono text-white text-2xl font-bold tracking-wider">
+            {user.memberNumber || user.id.slice(0, 10)}
+          </p>
         </div>
 
         {/* 登録情報セクション */}
